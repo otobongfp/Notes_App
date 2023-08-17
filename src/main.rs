@@ -54,10 +54,12 @@ fn main() {
     //Allows Us to Receive inputs on the same line
     let _ = io::stdout().flush();
     io::stdin().read_line(&mut choice).expect("Something is Wrong");
-    let option = choice.to_lowercase().to_string();
 
-    match option {
-        "name" => {
+    let choice = choice.trim().parse().unwrap();
+
+
+    match choice {
+        1 => {
             println!("Creating New Note...");
             
             let from_ymd_opt = NaiveDate::from_ymd_opt;
@@ -75,6 +77,13 @@ fn main() {
             
             create_note(t, name, b);
         },
+        3 => {
+            println!("{}", Note.title());
+        },
+        _ => {
+            println!("Something is wrong");
+        },
+
 
     };
     
@@ -88,16 +97,22 @@ fn main() {
 
     //DELETE NOTE
 
+
     
 }
 
 //CREATE NOTE
-fn create_note(title: String, name : String, body: String){
+pub fn create_note(title: String, name : String, body: String) -> Note {
 
-    let new_note = Note{
+    Note{
         id: 1,
         title : title,
         author : name,
         body : body,
-    };
+    }
+}
+
+fn read_note(new_note.[n]){
+    let read_note = &new_note;
+    println!("Title:{}\nAuthor:{}\n",);
 }
