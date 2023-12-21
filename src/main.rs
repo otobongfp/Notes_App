@@ -33,7 +33,7 @@ fn main() {
 
     
 
-    println!("+----------------------------+\n|  WELCOME TO THE NOTES APP  |\n+----------------------------+");
+    println!("\n+----------------------------+\n|  WELCOME TO THE NOTES APP  |\n+----------------------------+");
     
     let now: DateTime<Local> = Local::now();
     println!("Current date and time: {}\n", now);
@@ -44,29 +44,26 @@ fn main() {
     let _ = io::stdout().flush();
     io::stdin().read_line(&mut name).expect("Something happened while creating name");
 
+    println!("\n\tChoose one of the letters to execute the action");
     println!("
-    \t[C] Create new note \t[U] Update an old note
-    \t[R] Read a note. \t[L] List all notes
-    \t[D] Delete Note
+    \t[C] Create new note \t[R] Read a specific note.
+    \t[U] Update an old note \t[D] Delete a Note
+    \t[L] List all notes
     ");
     
     loop{
-
         //Choose a Command based on the above options
         let mut choice = String::new();
 
-        print!("type here ---> ");
+        print!("\nChoose an Action [C], [R], [U], [D], [L] -----> ");
         //Allows Us to Receive inputs on the same line
         let _ = io::stdout().flush();
         io::stdin().read_line(&mut choice).expect("Something is Wrong");
 
-        let choice = choice.trim().parse().unwrap();
+        let choice = choice.trim();
         match choice {
-            1 => {
+            "C" | "c" => {
                 println!("Creating New Note...");
-                
-                // let from_ymd_opt = NaiveDate::from_ymd_opt;
-                // assert!(from_ymd_opt(2015, 3, 14).is_some());
         
                 print!("TITLE:   ");
                 let mut title = String::new();
@@ -78,13 +75,39 @@ fn main() {
                 let _ = io::stdout().flush();
                 io::stdin().read_line(&mut body).expect("Check the title");
 
+                //I called the read notes function
                 //I cloned the name as the author in the function. This way we avoid
                 //Any possible memory pointer issues
                 create_note(now, title, name.clone(), body);
             },
-            2 => {
+            "R" | "r" => {
+                //Reading a specific note by ID
+                println!("What is the ID of the note you intend to Read: ");
+                let mut num = String::new();
+                io::stdin().read_line(&mut num).expect("Could not get the ID");
+                
+                let mut id: usize = num.trim().parse().expect("Something is wrong");
+                id = id - 1;
+
+                unsafe{
+
+                    let the_note = &mut ALL_NOTES[id];
+                    let id = &the_note.id;
+                    let date = &the_note.date;
+                    let title = &the_note.title;
+                    let name = &the_note.author;
+                    let body = &the_note.body;
+                    println!("\n\tID[{id}] \n\tTITLE: {title} \n\tcreated on: {date} \n\tcreated by:{name} \n\n\tNOTE: {body}");
+                }
+            },
+            "U" | "u" => {
+                //Update a note
+                update_note();
+            },
+            "L" | "l" => {
                 //Reading the note
-                read_note();
+                //calls the list note function to list all the notes
+                list_notes();
             },
             _ => {
                 println!("Something is wrong");
@@ -95,14 +118,12 @@ fn main() {
     }
     
     //CREATE NOTE - working
-    
-    //LIST NOTES
 
-    //READ NOTE - OUPUT TO TERMINAL - TUI
+    //READ NOTE - working
 
-    //UPDATE NOTE
+    //UPDATE NOTE - working
 
-    //DELETE NOTE
+    //DELETE NOTE - 
 
 
     
@@ -135,11 +156,11 @@ pub fn create_note(date: DateTime<Local>, title: String, author: String, body: S
 
 }
 
-pub fn read_note(){
+pub fn list_notes(){
     //I used unsafe here to easily access the values in All notes
     //There are options to avoid using unsafe but for simplicity
     //I made everything as direct as possible, lol.
-    
+
     println!("\n\n_________________________________________________CURRENT NOTES_________________________________________________\n");
     unsafe{
         for i in &ALL_NOTES{
@@ -152,4 +173,42 @@ pub fn read_note(){
             println!("ID[{new_id}] \nTITLE: {new_title}\nauthor: {new_name} \ncreated on: {new_date} \n\n\tnote: {new_body}");
         }
     }
+}
+
+pub fn update_note(){
+    println!("You are about to edit a note");
+    println!("Input the note's ID: ");
+
+    unsafe{
+        //The note we want to change
+        let mut num = String::new();
+        io::stdin().read_line(&mut num).expect("The Input was inaccurate");
+        let mut id: usize = num.trim().parse().expect("The ID is invalid");
+
+        //Subtracted one below to ensure that we pick the correct position of struct inside the vector
+        id = id - 1;
+
+        if id <= ALL_NOTES.len(){
+            println!("New Note: ");
+            let mut body = String::new();
+            io::stdin().read_line(&mut body).expect("Body is invalid");
+            body = body.trim().parse().expect("Could not convert");
+                        
+            let update = &mut ALL_NOTES[id];
+            update.body = body.trim().to_string();
+
+            let new_id = &update.id;
+            let new_date = &update.date;
+            let new_title = &update.title;
+            let new_name = &update.author;
+            let new_body = &update.body;
+            println!("\n\t\t+----------------------------+\n\t\t|  PREVIEW OF UPDATE  |\n\t\t+----------------------------+");
+            println!("\nID[{new_id}] \nTITLE: {new_title}\nauthor: {new_name} \ncreated on: {new_date} \n\n\tnote: {new_body}");
+                        
+        }else{
+            println!("Something is wrong with the edit process")
+        }
+    }
+
+
 }
