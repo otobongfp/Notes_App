@@ -82,7 +82,7 @@ fn main() {
             },
             "R" | "r" => {
                 //Reading a specific note by ID
-                println!("What is the ID of the note you intend to Read: ");
+                println!("Input the ID of the note you intend to READ: ");
                 let mut num = String::new();
                 io::stdin().read_line(&mut num).expect("Could not get the ID");
                 
@@ -108,6 +108,28 @@ fn main() {
                 //Reading the note
                 //calls the list note function to list all the notes
                 list_notes();
+            },
+            "D" | "d" => {
+                //To delete a specific note
+
+                println!("Input the ID of the note you intend to DELETE: ");
+                let mut num = String::new();
+                io::stdin().read_line(&mut num).expect("Could not get the ID");
+                
+                let mut id: usize = num.trim().parse().expect("Something is wrong");
+                id = id - 1;
+
+                unsafe{
+                    if id < ALL_NOTES.len(){
+                        //Remove returns the deleted item, so I used print to output it. I could still parse it
+                        //But using {:?} allows the println! macro to handle output for a struct
+                        //{:?} works because I initially declared #[derive(Debug)]
+                        let deleted = ALL_NOTES.remove(id);
+                        println!("Deletion, successful!! {:?}", deleted);
+                    }else{
+                        println!("Failed to Delete. Check the ID");
+                    }
+                }
             },
             _ => {
                 println!("Something is wrong");
