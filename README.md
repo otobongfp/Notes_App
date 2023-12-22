@@ -2,7 +2,7 @@
 
 ## The Rust Notes App is a simple application that allows you to create notes via your CLI
 
-<p>The project will get anyone conversant with basics of Rust such as variables, io, functions, mutability, lists manipulation etc I also ensured to add substantial comments to allow anyone understand the code.</p>
+<p>The project will get anyone conversant with basics of Rust such as variables, io, functions, mutability, lists manipulation etc I also ensured to add substantial comments enable anyone understand the code.</p>
 <p>There are better methods to handle alot of processes here but I kept it as simple as possible to avoid using alot of imported modules</p>
 
 ### Features & Getting Started
