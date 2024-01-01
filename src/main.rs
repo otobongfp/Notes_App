@@ -17,10 +17,6 @@ struct Note{
     body : String,
 }
 
-// enum Notes{
-//     Id(Note),
-// }
-
 //To hold the structs on notes being pushed in.
 static  mut ALL_NOTES : Vec<Note> = Vec::new();
 
@@ -55,14 +51,15 @@ fn main() {
         //Choose a Command based on the above options
         let mut choice = String::new();
 
-        print!("\nChoose an Action [C], [R], [U], [D], [L] -----> ");
+        print!("\nChoose an Action [C]reate, [R]ead, [U]pdate, [D]elete, [L]ist -----> ");
         //Allows Us to Receive inputs on the same line
         let _ = io::stdout().flush();
         io::stdin().read_line(&mut choice).expect("Something is Wrong");
 
-        let choice = choice.trim();
-        match choice {
-            "C" | "c" => {
+        let choice = choice.trim().to_lowercase();
+
+        match choice.as_str() {
+            "c" => {
                 println!("Creating New Note...");
         
                 print!("TITLE:   ");
@@ -80,7 +77,7 @@ fn main() {
                 //Any possible memory pointer issues
                 create_note(now, title, name.clone(), body);
             },
-            "R" | "r" => {
+            "r" => {
                 //Reading a specific note by ID
                 println!("Input the ID of the note you intend to READ: ");
                 let mut num = String::new();
@@ -100,16 +97,16 @@ fn main() {
                     println!("\n\tID[{id}] \n\tTITLE: {title} \n\tcreated on: {date} \n\tcreated by:{name} \n\n\tNOTE: {body}");
                 }
             },
-            "U" | "u" => {
+            "u" => {
                 //Update a note
                 update_note();
             },
-            "L" | "l" => {
+            "l" => {
                 //Reading the note
                 //calls the list note function to list all the notes
                 list_notes();
             },
-            "D" | "d" => {
+            "d" => {
                 //To delete a specific note
 
                 println!("Input the ID of the note you intend to DELETE: ");
