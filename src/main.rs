@@ -5,9 +5,6 @@ use chrono::prelude::*;
 
 #[derive(Debug)]
 
-//TO-DO
-//Allow Created Notes to automatically record date
-
 
 struct Note{
     id: u16,
