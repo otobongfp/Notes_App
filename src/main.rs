@@ -133,16 +133,6 @@ fn main() {
         };
     }
     
-    //CREATE NOTE - working
-
-    //READ NOTE - working
-
-    //UPDATE NOTE - working
-
-    //DELETE NOTE - 
-
-
-    
 }
 
 
