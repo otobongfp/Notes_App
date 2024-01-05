@@ -17,6 +17,7 @@ struct Note{
 //To hold the structs on notes being pushed in.
 static  mut ALL_NOTES : Vec<Note> = Vec::new();
 
+
 fn main() {
 //[L] List all notes
 //[C] Create new note
@@ -28,6 +29,7 @@ fn main() {
 
     println!("\n+----------------------------+\n|  WELCOME TO THE NOTES APP  |\n+----------------------------+");
     
+    //I assigned the current date to a variable named now
     let now: DateTime<Local> = Local::now();
     println!("Current date and time: {}\n", now);
 
